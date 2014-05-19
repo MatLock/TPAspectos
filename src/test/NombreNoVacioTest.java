@@ -14,7 +14,7 @@ public class NombreNoVacioTest {
 	
 	@Test
     public void noDebePermitirNombresVacios () {
-        Persona p1 = new Persona(null);
+        Persona p1 = new Persona();
         ValidadorAspect.aspectOf().agregarValidador(p1, "nombre", new ValidarStringNoVacio()); 
         p1.setNombre("Nico");
         assertEquals("Nico", p1.getNombre()); // Se asigna el nombre correctamente

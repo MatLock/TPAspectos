@@ -16,9 +16,9 @@ public aspect ContadorLlamadasAspect{
 	public void actualizarSiExiste(Object target,String metodo){
 		HashMap<String,Integer>dict = this.map.get(target);
 		if(dict.containsKey(metodo)){
-		Integer valor = dict.get(metodo);
-		valor += 1;
-		dict.put(metodo, valor);
+			Integer valor = dict.get(metodo);
+			valor += 1;
+			dict.put(metodo, valor);
 		}else{
 			dict.put(metodo, 1);
 		}
@@ -39,10 +39,9 @@ public aspect ContadorLlamadasAspect{
 	}
 	
 	
-	after() returning: metodosMonitoreados(){
+	after() : metodosMonitoreados(){
 		Object target = thisJoinPoint.getTarget();
 		String metodo = thisJoinPoint.getSignature().getName();
-		
 		if (this.map.containsKey(target)){
 			this.actualizarSiExiste(target, metodo);
 		}else{

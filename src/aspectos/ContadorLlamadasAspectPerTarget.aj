@@ -4,7 +4,7 @@ import java.util.HashMap;
 
 import annotations.Monitored;
 
-public aspect ContadorLlamadasAspectPerTarget pertarget(execution(@Monitored * clases..*())){
+public aspect ContadorLlamadasAspectPerTarget pertarget(execution((@Monitored *).new(..))){
 
 	private HashMap<String, Integer> map = new HashMap<String, Integer>();
 
@@ -22,7 +22,7 @@ public aspect ContadorLlamadasAspectPerTarget pertarget(execution(@Monitored * c
 	}
 
 	// /////////////////////////////////////////////////////////
-	// METODOS //
+	//                         METODOS                       //
 	// ///////////////////////////////////////////////////////
 
 	public void agregarSiNoExiste(String metodo) {

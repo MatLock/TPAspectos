@@ -2,7 +2,7 @@ package clases;
 
 import annotations.Monitored;
 
-
+@Monitored
 public class Persona {
 
 	private String nombre;

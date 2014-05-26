@@ -1,17 +1,18 @@
 package aspectos;
 
 import java.util.HashMap;
+import java.util.Map;
 
 import annotations.Monitored;
 
 public aspect ContadorLlamadasAspectPerTarget pertarget(execution((@Monitored *).new(..))){
 
-	private HashMap<String, Integer> map = new HashMap<String, Integer>();
+	private Map<String, Integer> map = new HashMap<String, Integer>();
 
 	pointcut metodosMonitoreados():
 		call (@Monitored * clases.*.*(..) );
 
-	after() returning: metodosMonitoreados(){
+	after() returning: metodosMonitoreados() {
 		String metodo = thisJoinPoint.getSignature().getName();
 
 		if (this.map.containsKey(metodo)) {

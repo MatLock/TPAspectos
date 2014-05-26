@@ -1,12 +1,13 @@
 package aspectos;
 
 import java.util.HashMap;
+import java.util.Map;
 
 import annotations.Monitored;
 
 public aspect ContadorLlamadasAspect{
 
-	private HashMap<Object,HashMap<String,Integer>> map = new HashMap<Object, HashMap<String,Integer>>();
+	private Map<Object,Map<String,Integer>> map = new HashMap<Object, Map<String,Integer>>();
 	
 	pointcut metodosMonitoreados():
 		call (@Monitored * clases.*.*(..) );
@@ -14,8 +15,8 @@ public aspect ContadorLlamadasAspect{
 	
 	
 	public void actualizarSiExiste(Object target,String metodo){
-		HashMap<String,Integer>dict = this.map.get(target);
-		if(dict.containsKey(metodo)){
+		Map<String,Integer> dict = this.map.get(target);
+		if (dict.containsKey(metodo)) {
 			Integer valor = dict.get(metodo);
 			valor += 1;
 			dict.put(metodo, valor);
@@ -24,10 +25,8 @@ public aspect ContadorLlamadasAspect{
 		}
 	}
 	
-	public void agregarSiNoExiste(Object target,String metodo){
-		HashMap<String, Integer> nuevoMap = new HashMap<String, Integer>();
-		nuevoMap.put(metodo, 1);
-		this.map.put(target,nuevoMap);
+	public void agregarSiNoExiste(Object target) {
+		this.map.put(target,new HashMap<String, Integer>());
 	}
 	
 	public int cantLlamadas(Object target,String metodo){
@@ -42,10 +41,9 @@ public aspect ContadorLlamadasAspect{
 	after() : metodosMonitoreados(){
 		Object target = thisJoinPoint.getTarget();
 		String metodo = thisJoinPoint.getSignature().getName();
-		if (this.map.containsKey(target)){
-			this.actualizarSiExiste(target, metodo);
-		}else{
-			this.agregarSiNoExiste(target, metodo);
+		if (!this.map.containsKey(target)) {
+			this.agregarSiNoExiste(target);
 		}
+		this.actualizarSiExiste(target, metodo);
 	}
 }

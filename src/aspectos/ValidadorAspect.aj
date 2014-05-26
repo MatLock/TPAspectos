@@ -24,7 +24,7 @@ public aspect ValidadorAspect {
 		if (existeObject(target) && this.map.get(target).containsKey(metodo)) {	
 			return this.map.get(target).get(metodo);
 		}
-		return NoopValidator.SHARED_INSTANCE;
+		return new NoopValidator();
 	}
 	
 	
